@@ -81,8 +81,10 @@ bool hasLife(World world)
 int main()
 {
     while (hasLife(world)) {
+        using namespace std::chrono_literals;
         show(world);
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(1s);
         world = evolve(world);
     }
 }
