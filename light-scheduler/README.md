@@ -7,3 +7,35 @@ host machine without having a real light controller and RTOS.
 
 Source: &quot;Test-Driven Development for Embedded C&quot; by James W. Grenning, 2011
 
+```
+                   +-----------------------------+
+                   |       Light Scheduler       |
+                   |-----------------------------|
+                   | + set_schedule(schedule)    |
+                   | + remove_schedule(schedule) |
+                   | + wakeup()                  |
+                   +-------------+-+-------------+
+                                 | |
+            +--------------------+ +------------------------+
+            |                                               |
+  +---------v------------+        +-------------------------v------------------------+
+  |   < < interface > >  |        |                 < < interface > >                |
+  |   LightController    |        |                    TimeService                   |
+  |----------------------|        |--------------------------------------------------|
+  | + turn_on(id)        |        | + current_time() : time_t                        |
+  | + turn_off(id)       |        | + set_periodic_alarm(minute, callback) : handler |
+  +----------^-----------+        | + unset_periodic_alarm(handler)                  |
+             |                    +-------------------^------------------------------+
+             |                                        |
+  +----------------------+                            |
+  |     Model A          |                  +---------+-------+
+  | LightController      |                  |       RTOS      |
+  +----------------------+                  |   TimeSertice   |
+             |                              +---------+-------+
+             |                                        |
+  +----------v-----------+                            |
+  |     Model A          |                  +---------v-------+
+  |     Hardware         |                  |       RTOS      |
+  +----------------------+                  |                 |
+                                            +-----------------+
+```
